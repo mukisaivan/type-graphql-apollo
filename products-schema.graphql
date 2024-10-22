@@ -1,0 +1,5 @@
+APOLLO_KEY=service:Graphql-project-vox6ve5:X7TRrDbKorwBoz6d9q9udA \
+  rover subgraph publish Graphql-project-vox6ve5@current \
+  --schema ./products-schema.graphql \
+  --name your-subgraph-name \
+  --routing-url http://products.prod.svc.cluster.local:4001/graphql

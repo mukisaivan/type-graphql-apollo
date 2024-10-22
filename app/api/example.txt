@@ -1,0 +1,123 @@
+query --> get
+mutations --> post, put, delete
+
+
+// QUERIES 
+
+---------- query ----------
+
+query GetTransactions {
+  transactions: {
+    _id
+    description
+    paymentType
+    category
+    amount
+    location
+    date
+  }
+}
+
+---------- response -----------
+
+const transactions = [
+  {
+    _id: "123"
+    description: "Rent"
+    paymentType: "card"
+    category: "expense"
+    amount: 1000
+    location: "unknown"
+    date: "01-01-2024"
+  },
+  {
+    _id: "123"
+    description: "Rent"
+    paymentType: "card"
+    category: "expense"
+    amount: 1000
+    location: "unknown"
+    date: "01-01-2024"
+  },
+
+]
+
+------ resolver -------
+
+Query: {
+  transactions: async (_,_, context) => {
+    const userId = context.getUser()._id
+    const transactions = await Transaction.find({userId})
+    console.log(transactions) 
+  }
+}
+
+
+
+
+------- specific transaction --------
+
+query GetTransaction($id: ID! ) {
+  transaction(transactionId: $id) {
+    _id
+    description
+    paymentType
+    category
+    amount
+    location
+    date
+  }
+}
+
+const transaction = {
+  _id: "123"
+  description: "Rent"
+  paymentType: "card"
+  category: "expense"
+  amount: 1000
+  location: "unknown"
+  date: "01-01-2024"
+}
+
+
+// -------------- MUTATIONS -------------------
+
+mutation SignUp($input: SignUpInput!) {
+  signup(input: $input) {
+    _id
+    name
+    username
+  }
+}
+
+
+------ response ----------
+
+const user ={
+  _id: "123"
+  name: "jd"
+  username: "jdd"
+}
+
+
+------- resolver ---------
+
+Mutation: {
+  signup: (_, {input}, context) => {
+    try{
+      const {username, name, password , gender} = input
+
+      const existing user = User.findOne({username})
+
+      if(existingUser) {
+        throw new Error("User already exists)
+      }
+
+      const salt = await bcrypt.gensalt(10)
+      const hashedPassword= await bcrypt.hash(password, salt)  
+
+    } catch() {
+
+    }
+  }
+}
